@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container-fluid p-0 m-0">
+  
+        <nav class="navbar navbar-dark bg-dark px-3 w-100 d-flex align-items-center">
+  
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold fs-4 text-white me-4" href="#">
+                ✂️ Salon & Spa
+            </a>
+          
+            <!-- Menu Buttons -->
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+          
+              
+              </button>
+            </div>
+          
+            <!-- Right Side -->
+            <div class="ms-auto d-flex align-items-center gap-3 text-white">
+          
+              <button class="btn btn-outline-light btn-sm">
+                Admin
+                </button>
+              <button class="btn btn-danger btn-sm" onclick="logout()">
+                Log Out
+              </button>
+          
+            </div>
+          </nav>
+
+          <div>
+    <div id="adminSection" class="d-flex flex-column align-items-center border-end" style="min-width: 200px; height: 100vh; padding-top: 20px;">
+        <button id="manageServicesBtn" class="btn btn-primary m-4">Manage Services</button>
+        <button id="addServiceBtn" class="btn btn-success m-4">Add Service</button>
+        <button id="manageStaffBtn" class="btn btn-primary m-4">Manage Staff</button>
+        <button id="addStaffBtn" class="btn btn-success m-4">Add Staff</button>
+        <button id="viewBookingsBtn" class="btn btn-info m-4">View Bookings</button>
+        <button id="CustomerProfileBtn" class="btn btn-warning m-4">Customer Profiles</button>
+    </div>
+          </div>
+      
+   </div>
+
+    
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+<script src="index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</html>
