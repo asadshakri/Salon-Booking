@@ -11,18 +11,25 @@ const path = require("path");
 const usersRouter=require("./Router/userRouter");
 const adminRouter=require("./Router/adminRouter");
 const serviceRouter=require("./Router/serviceRouter");
-
-
+const staffRouter=require("./Router/staffRouter");
+const bookingRouter=require("./Router/bookingRouter");
+const paymentRouter=require("./Router/paymentRouter");
 
 require("./models/user");
 require("./models/service");
+require("./models/serviceAvail");
+require("./models/relation");
+require("./models/staff");
+require("./models/staffService");
+require("./models/appointment");
+require("./Models/payment");
 
 //const accesslogStream=fs.createWriteStream(path.join(__dirname,'access.log',),{flags:'a'});
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../Client")));
-//app.use(express.static('public'));
+app.use(express.static('public'));
 
 //app.use(morgan('combined',{stream:accesslogStream}));
 
@@ -30,6 +37,9 @@ app.use(express.static(path.join(__dirname, "../Client")));
 app.use("/user",usersRouter)
 app.use("/admin",adminRouter);
 app.use("/salon",serviceRouter);
+app.use("/staff",staffRouter);
+app.use("/booking",bookingRouter);
+app.use("/",paymentRouter);
 
 
 app.get("/", (req, res) => {

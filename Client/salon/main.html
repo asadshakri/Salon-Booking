@@ -20,7 +20,7 @@
             <!-- Menu Buttons -->
             <div class="d-flex align-items-center gap-2 flex-wrap">
           
-              <button class="btn btn-dark" onclick="SearchService()">
+              <button class="btn btn-dark" onclick="selectService()">
                 Home
               </button>
           
@@ -115,7 +115,38 @@
       <!-- Services will be dynamically loaded here -->
      </div>
   </div>
+
+  <div id="staffSection" style="display: none;">
+    <!-- Staff Section Content -->
+     <div id="staffList" class="d-flex flex-wrap gap-3 p-4">
+      <!-- Staff details will be dynamically loaded here -->
+     </div>
+  </div>
+
+
+    <div id="selectServiceSection" style="display: none; padding: 20px;">
+
+        <h3>Book an Appointment</h3>
+        <br>
+        <input type="text" id="custName" placeholder="Your Name" class="form-control" required/>
+<input type="tel"  id="custPhone" placeholder="Phone" class="form-control" required/>
+      <select id="serviceSelect" class="form-control"></select>
+     <input type="date" id="bookingDate" class="form-control" />
+     
+<button type="button" class="btn btn-warning" onclick="searchSlots()">Search Slots</button>
+
+<div id="slots" ></div>
+ 
+
+ 
+    </div> 
       
+<div id="bookingSection" style="display: none; padding: 20px;">
+    
+    <div id="bookingList" class="d-flex flex-column gap-3">
+      <!-- Bookings will be dynamically loaded here -->
+    </div>
+
    </div>
 
     

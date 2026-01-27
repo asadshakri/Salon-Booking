@@ -22,7 +22,7 @@ const payment = sequelize.define("payment", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  userId:{
+  appointmentId:{
     type: DataTypes.INTEGER
   }
 });

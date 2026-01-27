@@ -4,7 +4,8 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const services=require("../models/service");
 const serviceAvail=require("../models/serviceAvail");
-
+const StaffAvailability=require("../models/staffAvail");
+const Staff=require("../models/staff");
 function generateToken(id) {
     return jwt.sign({ userId: id }, process.env.TOKEN);
   }
@@ -49,7 +50,7 @@ function generateToken(id) {
             res.status(401).json({message:"Not authorized! Admins only"});
             return;
         }*/
-        await services.create({serviceName,serviceDescription:serviceDesc,serviceDuration,servicePrice});
+        const newService=await services.create({serviceName,serviceDescription:serviceDesc,serviceDuration,servicePrice});
         res.status(201).json({message: "Service added successfully",
             serviceId: newService.id});
     }
@@ -61,16 +62,18 @@ function generateToken(id) {
 
   const setServiceAvailability = async (req, res) => {
     try {
-      const { serviceId, day, times } = req.body;
-     
-  
-      const slots = times.map(time => ({
-        serviceId,
-        day,
-        time
-      }));
-  
-      await ServiceSlot.bulkCreate(slots);
+      const { serviceId, days } = req.body;
+
+      //day is like 'Monday', 'Tuesday' etc.
+      //no time is there
+
+      const slots= days.map(dayItem=>({
+        day:dayItem,
+        serviceId:serviceId
+      })
+      )
+
+      await serviceAvail.bulkCreate(slots);
   
       res.status(201).json({ message: "Slots added successfully" });
     } catch (err) {
@@ -79,7 +82,42 @@ function generateToken(id) {
   };
 
 
+  const addStaffDetails=async(req,res)=>{
+
+    try{
+    const { name, email, phone, specialization, services, availability } = req.body;
+
+  const staff = await Staff.create({
+    name,
+    email,
+    phone,
+    specialization
+  });
+
+  // assign services
+  if (services.length) {
+    await staff.setServices(services); // service IDs
+  }
+
+  // availability
+  if (availability.length) {
+    const slots = availability.map(a => ({
+      time: a.time,
+      staffId: staff.id
+    }));
+    await StaffAvailability.bulkCreate(slots);
+  }
+
+  res.status(201).json({ message: "Staff added", staffId: staff.id });
+}
+catch(err){
+    res.status(500).json({ message: err.message });
+}
+  }
+
+
     module.exports={loginAdmin
 ,addSalonService,
-setServiceAvailability
+setServiceAvailability,
+addStaffDetails
     };

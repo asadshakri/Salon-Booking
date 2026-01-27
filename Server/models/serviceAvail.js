@@ -5,15 +5,9 @@ const ServiceAvail = sequelize.define("ServiceAvail", {
     serviceId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      autoIncrement: true,
-        primaryKey: true,
 
     },
-    day: {
-        type: DataTypes.STRING, 
-        allowNull: false
-      },
-      time: {
+      day: {
         type: DataTypes.STRING,
         allowNull: false
       },

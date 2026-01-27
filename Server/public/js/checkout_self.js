@@ -4,7 +4,8 @@ document.getElementById("renderBtn").addEventListener("click", async() => {
     });
     try{
         const token=localStorage.getItem("token");
-      const response=await axios.post("http://localhost:3000/pay",{},{ headers:{ "Authorization": token } })
+        const appointmentId=localStorage.getItem("appointmentId");
+      const response=await axios.post("http://localhost:4000/pay",{appointmentId},{ headers:{ "Authorization": token } })
       const paymentSessionId=response.data.paymentSessionId;
        console.log(paymentSessionId);
     let checkoutOptions = {
@@ -12,7 +13,7 @@ document.getElementById("renderBtn").addEventListener("click", async() => {
         redirectTarget: "_self",
     };
     await cashfree.checkout(checkoutOptions);
-    localStorage.removeItem("token");
+   // localStorage.removeItem("token");
 }
 catch(err)
 {
@@ -20,13 +21,14 @@ catch(err)
 }
 });
 
-window.opener.postMessage("READY", "http://localhost:3000");
+window.opener.postMessage("READY", "http://localhost:4000");
 
 window.addEventListener("message", (event) => {
   console.log("Message received from:", event.origin);
 
-  if (event.origin === "http://localhost:3000") {
+  if (event.origin === "http://localhost:4000") {
     localStorage.setItem("token", event.data.token);
+    localStorage.setItem("appointmentId", event.data.appointmentId);
    
   }
 });
