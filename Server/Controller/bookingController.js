@@ -5,18 +5,6 @@ const Staff = require("../models/staff");
 const StaffAvailability = require("../models/staffAvail");
 
 
-/*const getNext7Dates = () => {
-    const dates = [];
-    const today = new Date();
-  
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      dates.push(d.toISOString().split("T")[0]);
-    }
-    return dates;
-  };*/
-
   const availableSlots = async (req, res) => {
     try {
       const { serviceId, date } = req.query;
@@ -25,7 +13,7 @@ const StaffAvailability = require("../models/staffAvail");
         return res.status(400).json({ message: "serviceId and date are required" });
       }
   
-      // 1️⃣ Extract DAY from DATE
+      // Extract DAY from DATE
       const selectedDate = new Date(date);
       const day = selectedDate.toLocaleDateString("en-US", {
         weekday: "long"
@@ -34,7 +22,7 @@ const StaffAvailability = require("../models/staffAvail");
       console.log("Selected Date:", date);
       console.log("Day:", day);
   
-      // 2️⃣ Check if service works on that day
+      // Check if service works on that day
       const serviceDay = await ServiceAvailability.findOne({
         where: {
           ServiceId: serviceId,
@@ -46,7 +34,7 @@ const StaffAvailability = require("../models/staffAvail");
         return res.json([]); // service not available that day
       }
   
-      // 3️⃣ Staff who can do this service
+      //  Staff who can do this service
       const staffList = await Staff.findAll({
         include: [
           {
@@ -60,7 +48,7 @@ const StaffAvailability = require("../models/staffAvail");
         ]
       });
   console.log("Staff List:", staffList);
-      // 4️⃣ Already booked appointments for that date
+      // Already booked appointments for that date
       const bookings = await Appointment.findAll({
         where: { date: appointmentDate  }
       });
@@ -70,7 +58,7 @@ const StaffAvailability = require("../models/staffAvail");
         bookedMap[`${b.StaffId}-${b.time}`] = true;
       });
   
-      // 5️⃣ Build available slots
+      //  Build available slots
       const result = [];
       staffList.forEach(staff => {
         staff.StaffAvails.forEach(av => {
@@ -129,6 +117,13 @@ const createBooking = async (req, res) => {
 
 const getBookings= async (req,res)=>{
   try{
+   console.log("User ID:", req.user.id);
+   console.log("Admin ID:", process.env.ADMIN_ID);
+    if(req.user.id===process.env.ADMIN_ID){
+      const allBookings= await Appointment.findAll();
+      return res.status(200).json({bookings:allBookings});
+    }
+
     const bookings= await Appointment.findAll({
       where:{
         customerId:req.user.id
@@ -143,6 +138,7 @@ const getBookings= async (req,res)=>{
 
 const cancelBooking= async (req,res)=>{
   try{
+   
     const bookingId=req.params.bookingId;
     await Appointment.destroy({
       where:{

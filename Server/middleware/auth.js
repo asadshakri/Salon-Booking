@@ -7,6 +7,12 @@ const authenticate=async(req,res,next)=>{
         const token=req.header("authorization");
       
         const user=jwt.verify(token,`${process.env.TOKEN}`);
+
+        if(user.userId===process.env.ADMIN_ID)
+        {
+            req.user={id:process.env.ADMIN_ID,isAdmin:true};
+            return next();
+        }
       
         const loginUser=await User.findByPk(user.userId);
         req.user=loginUser;

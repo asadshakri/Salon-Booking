@@ -229,6 +229,7 @@ function logout(){
         );
 
          localStorage.setItem("appointmentId",book.data.appointmentId);
+         localStorage.setItem("servicePrice",book.data.servicePrice);
          const appointmentId=localStorage.getItem("appointmentId");
         const popup = window.open(`http://localhost:4000/paymentPage`, "payment");
       
@@ -315,7 +316,7 @@ function logout(){
         }
 
         async function rescheduleAppointment(appointmentId,serviceId){
-          //add popup for rescheduling
+          
 
           const popup = document.createElement("div");
     popup.className = "popup";

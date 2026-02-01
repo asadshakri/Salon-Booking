@@ -6,6 +6,7 @@ const sequelize = require("../utils/db-connection");
 const payment= require("../Models/payment");
 const appointment = require("../models/appointment");
 const Sib = require("sib-api-v3-sdk");
+const service= require("../models/service");
 
 exports.getPaymentPage = async (req, res) => {
   res.sendFile(path.join(__dirname, "..", "View", "index.html"));
@@ -14,13 +15,34 @@ exports.getPaymentPage = async (req, res) => {
 
 
 exports.processPayment = async (req, res) => {
-  const orderId = "ORDER-" + Date.now();
-  const orderAmount = 2000;
-  const orderCurrency = "INR";
-  const customerID = "1";
-  const customerPhone = "9999999999";
 
-  try {
+
+  try{
+    const db = await appointment.findOne({
+      where: {
+        id: req.body.appointmentId
+      },
+      include: [
+        {
+          model: service,
+          attributes: ["servicePrice"]
+        },
+        {
+          model: user,
+          attributes: ["phone"]
+        }
+      ]
+    });
+
+    const orderId = "ORDER-" + Date.now();
+    const orderAmount = db.service.servicePrice;
+    const orderCurrency = "INR";
+    const customerPhone = db.User.phone;
+    const customerID = "1"
+
+
+
+
     const paymentSessionId = await createOrder(
       orderId,
       orderAmount,
@@ -87,6 +109,19 @@ exports.getPaymentStatus = async (req,res) => {
       },transaction:t
      })
      console.log(payment_details);
+
+     const db = await appointment.findOne({
+      where: {
+        id: payment_details.appointmentId
+      },
+      include: [
+        {
+          model: user,
+          attributes: ["email"]
+        }
+      ],
+      transaction:t
+    });
      if(orderStatus=="Success")
      {
      await appointment.update({
@@ -117,7 +152,7 @@ exports.getPaymentStatus = async (req,res) => {
 
     const receivers = [
       {
-        email: "asadshakri@gmail.com"
+        email: db.User.email
       },
     ];
 

@@ -255,3 +255,7 @@ Implement functionality for staff to respond to reviews.
 
 
 Develop an admin dashboard for managing customers and appointments.
+
+
+
+https://docs.google.com/document/d/1HVXMD_tnokLQJnWCmVbpevFiz1KLr9HPIdsB5Ou-QTo/edit?tab=t.0

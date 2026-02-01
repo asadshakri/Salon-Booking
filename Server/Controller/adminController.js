@@ -46,10 +46,7 @@ function generateToken(id) {
   const addSalonService=async(req,res)=>{
     try{
         const{serviceName,serviceDesc,serviceDuration,servicePrice}=req.body;
-       /* if(req.user.id!==process.env.ADMIN_ID){
-            res.status(401).json({message:"Not authorized! Admins only"});
-            return;
-        }*/
+     
         const newService=await services.create({serviceName,serviceDescription:serviceDesc,serviceDuration,servicePrice});
         res.status(201).json({message: "Service added successfully",
             serviceId: newService.id});
@@ -64,8 +61,7 @@ function generateToken(id) {
     try {
       const { serviceId, days } = req.body;
 
-      //day is like 'Monday', 'Tuesday' etc.
-      //no time is there
+     
 
       const slots= days.map(dayItem=>({
         day:dayItem,

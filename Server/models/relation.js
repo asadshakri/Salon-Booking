@@ -4,6 +4,7 @@ const Staff=require("./staff");
 const StaffService=require("./staffService");
 const StaffAvailability=require("./staffAvail");
 const Appointment=require("./appointment");
+const Users=require("./user");
 
 services.hasMany(serviceAvail, { foreignKey: "serviceId" });
 serviceAvail.belongsTo(services, { foreignKey: "serviceId" });
@@ -26,4 +27,7 @@ Appointment.belongsTo(Staff);
 services.hasMany(Appointment);
 Appointment.belongsTo(services);
 
-module.exports={services,serviceAvail,Staff,StaffService,StaffAvailability,Appointment};
+Users.hasMany(Appointment, { foreignKey: "customerId" });
+Appointment.belongsTo(Users, { foreignKey: "customerId" });
+
+module.exports={services,serviceAvail,Staff,StaffService,StaffAvailability,Appointment,Users};

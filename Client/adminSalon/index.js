@@ -51,7 +51,7 @@ function convertTo24Hr(time) {
             <option>Sunday</option>
           </select>
   
-          <button id="addDayBtn" class="btn btn-outline-primary">➕</button>
+          <button id="addDayBtn" class="btn btn-outline-primary">Add</button>
         </div>
   
         <div id="daySlotList" class="mb-2"></div>
@@ -125,16 +125,6 @@ function convertTo24Hr(time) {
       popup.remove();
     };
   
-    function render() {
-      daySlotList.innerHTML = "";
-      for (const day in availability) {
-        daySlotList.innerHTML += `
-          <div class="border p-2 mb-1">
-            <strong>${day}</strong> : ${availability[day].map(formatTime).join(", ")}
-          </div>
-        `;
-      }
-    }
   });
   
   function convertTo24Hr(time) {

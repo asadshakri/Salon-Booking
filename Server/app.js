@@ -40,6 +40,7 @@ app.use("/salon",serviceRouter);
 app.use("/staff",staffRouter);
 app.use("/booking",bookingRouter);
 app.use("/",paymentRouter);
+require("./jobs/appointmentReminder");
 
 
 app.get("/", (req, res) => {
