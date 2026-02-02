@@ -1,4 +1,4 @@
-const backendUrl="http://13.235.74.25:7000";
+const backendUrl="http://13.235.74.25";
 
 function logout(){
     localStorage.removeItem("token");

@@ -22,7 +22,7 @@ require("./models/relation");
 require("./models/staff");
 require("./models/staffService");
 require("./models/appointment");
-require("./Models/payment");
+require("./models/payment");
 
 //const accesslogStream=fs.createWriteStream(path.join(__dirname,'access.log',),{flags:'a'});
 

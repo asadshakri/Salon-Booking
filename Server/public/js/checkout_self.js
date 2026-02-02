@@ -1,4 +1,4 @@
-const backend_url="http://13.235.74.25:7000";
+const backend_url="http://13.235.74.25";
 document.getElementById("renderBtn").addEventListener("click", async() => {
     const cashfree = Cashfree({
         mode: "sandbox",
