@@ -1,3 +1,5 @@
+const backendUrl="http://13.235.74.25:7000";
+
 function customerPage(){
     window.location.href = "/user/main.html";
 }
@@ -9,7 +11,7 @@ function loginAdmin(event){
     const adminDetails={email,password};
     const span=document.getElementById("message");
     span.innerHTML="";
-    axios.post(`http://localhost:4000/admin/login`,adminDetails).then((response)=>{
+    axios.post(`${backendUrl}/admin/login`,adminDetails).then((response)=>{
       alert(response.data.message);
       localStorage.setItem("adminToken",response.data.token);
       window.location.href="../adminSalon/main.html";

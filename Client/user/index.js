@@ -1,4 +1,4 @@
-const backend_url="http://localhost:4000";
+const backend_url="http://13.235.74.25:7000";
 
 window.onload=function(){
   if(localStorage.getItem("token")){

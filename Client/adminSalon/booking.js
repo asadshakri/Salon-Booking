@@ -1,9 +1,9 @@
-
+const backendUrl="http://13.235.74.25:7000";
 
 window.onload = async function() {
     try{
     const response = await axios.get(
-        "http://localhost:4000/booking/getBookings",
+        `${backendUrl}/booking/getBookings`,
         {
           headers: {
             "authorization": localStorage.getItem("adminToken")

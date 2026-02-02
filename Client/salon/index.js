@@ -1,6 +1,4 @@
-
-
-const backend_url="http://localhost:4000";
+const backend_url="http://13.235.74.25:7000";
 
 window.addEventListener('DOMContentLoaded',()=>{
   const token = localStorage.getItem('token');
@@ -20,6 +18,7 @@ async function showProfile(){
     document.getElementById("updateProfile").style.display='block';
     document.getElementById("staffSection").style.display='none';
     document.getElementById("bookingSection").style.display='none';
+    document.getElementById("selectServiceSection").style.display='none';
    
     const token = localStorage.getItem('token');
     const resultDetails= await axios.get(`${backend_url}/user/profile`,{ headers:{"authorization":token}});
@@ -99,7 +98,7 @@ function logout(){
         const token = localStorage.getItem("token");
 
         const res = await axios.get(
-          "http://localhost:4000/salon/services",
+          `${backend_url}/salon/services`,
           { headers: { Authorization: token } }
         );
         const serviceList = document.getElementById("serviceList");
@@ -130,7 +129,7 @@ function logout(){
         document.getElementById("selectServiceSection").style.display = "none";
         document.getElementById("bookingSection").style.display = "none";
 
-        const res = await axios.get("http://localhost:4000/staff/get");
+        const res = await axios.get(`${backend_url}/staff/get`);
         const container = document.getElementById("staffList");
         container.innerHTML = "";
       
@@ -156,7 +155,7 @@ function logout(){
     document.getElementById("staffSection").style.display = "none";
     document.getElementById("selectServiceSection").style.display = "block";
     document.getElementById("bookingSection").style.display = "none";
-        const res = await axios.get("http://localhost:4000/salon/services");
+        const res = await axios.get(`${backend_url}/salon/services`);
       
         serviceSelect.innerHTML = "";
         res.data.services.forEach(s => {
@@ -180,7 +179,7 @@ function logout(){
           return;
         }
        
-        const res = await axios.get(`http://localhost:4000/booking/availableSlots?serviceId=${serviceId}&date=${date}`
+        const res = await axios.get(`${backend_url}/booking/availableSlots?serviceId=${serviceId}&date=${date}`
         );
       
         const slotsDiv = document.getElementById("slots");
@@ -216,7 +215,7 @@ function logout(){
         }
       }
 
-       const book= await axios.post("http://localhost:4000/booking/createBooking", {
+       const book= await axios.post(`${backend_url}/booking/createBooking`, {
           customerName: custName.value,
           customerPhone: custPhone.value,
           serviceId,
@@ -231,18 +230,18 @@ function logout(){
          localStorage.setItem("appointmentId",book.data.appointmentId);
          localStorage.setItem("servicePrice",book.data.servicePrice);
          const appointmentId=localStorage.getItem("appointmentId");
-        const popup = window.open(`http://localhost:4000/paymentPage`, "payment");
+        const popup = window.open(`${backend_url}/paymentPage`, "payment");
       
         window.addEventListener("message", (event) => {
-          if (event.origin === `http://localhost:4000` && event.data === "READY") {
+          if (event.origin === `${backend_url}` && event.data === "READY") {
          
-            popup.postMessage({ token,appointmentId }, `http://localhost:4000`);
+            popup.postMessage({ token,appointmentId }, `${backend_url}`);
           }
         });
       }
       catch(error){
         if(error.response.data && error.response.data.message==="Slot already booked"){
-          alert("Sorry, this slot has just been booked by someone else. Please choose another slot.");
+          alert("Sorry this slot has just been booked by someone else. Please choose another slot.");
         }
         else{
         console.log("Error booking slot:", error);
@@ -262,7 +261,7 @@ function logout(){
 
           try {
             const response = await axios.get(
-              "http://localhost:4000/booking/getBookings",
+              `${backend_url}/booking/getBookings`,
               {
                 headers: {
                   "authorization": localStorage.getItem("token")
@@ -304,7 +303,7 @@ function logout(){
           if(confirmation){
           try{
             const token = localStorage.getItem("token");
-            const response=await axios.delete(`http://localhost:4000/booking/cancelBooking/${appointmentId}`,{ headers:{"authorization":token}});
+            const response=await axios.delete(`${backend_url}/booking/cancelBooking/${appointmentId}`,{ headers:{"authorization":token}});
             alert(response.data.message);
             showBooking();
           }
@@ -360,7 +359,7 @@ function logout(){
             return;
           }
          
-          const res = await axios.get(`http://localhost:4000/booking/availableSlots?serviceId=${serviceId}&date=${date}`
+          const res = await axios.get(`${backend_url}/booking/availableSlots?serviceId=${serviceId}&date=${date}`
           );
         
           const slotsDiv = document.getElementById("slotsD");
@@ -397,7 +396,7 @@ function logout(){
         }
       }
 
-       const book= await axios.patch(`http://localhost:4000/booking/rescheduleBooking/${appointmentId}`, {
+       const book= await axios.patch(`${backend_url}/booking/rescheduleBooking/${appointmentId}`, {
           serviceId,
           staffId,
           date,

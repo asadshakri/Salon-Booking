@@ -14,7 +14,8 @@ const sendReminderEmails = async () => {
     const appointments = await Appointment.findAll({
       where: {
         date,
-        status: "BOOKED"
+        status: "BOOKED",
+        ReminderSent: false
       },
       include: [
         {
@@ -46,11 +47,15 @@ const sendReminderEmails = async () => {
           <p><b>Date:</b> ${appt.date}</p>
           <p><b>Time:</b> ${appt.time}</p>
           <p><b>Staff:</b> ${appt.staffName}</p>
-        `
+          `
       });
-    }
 
+      await appt.update({ ReminderSent: true });
+    }
     console.log("Appointment reminders sent");
+
+
+
   } catch (err) {
     console.error("Reminder error:", err.message);
   }

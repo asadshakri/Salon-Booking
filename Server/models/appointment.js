@@ -35,6 +35,10 @@ const appointment=sequelize.define('appointment',{
         type:DataTypes.STRING,
         allowNull:false,
     },
+    ReminderSent:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+    }
 });
 
 

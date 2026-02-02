@@ -1,3 +1,4 @@
+const backend_url="http://13.235.74.25:7000";
 document.getElementById("renderBtn").addEventListener("click", async() => {
     const cashfree = Cashfree({
         mode: "sandbox",
@@ -5,7 +6,7 @@ document.getElementById("renderBtn").addEventListener("click", async() => {
     try{
         const token=localStorage.getItem("token");
         const appointmentId=localStorage.getItem("appointmentId");
-      const response=await axios.post("http://localhost:4000/pay",{appointmentId},{ headers:{ "Authorization": token } })
+      const response=await axios.post(`${backend_url}/pay`,{appointmentId},{ headers:{ "Authorization": token } })
       const paymentSessionId=response.data.paymentSessionId;
        console.log(paymentSessionId);
     let checkoutOptions = {
@@ -21,12 +22,12 @@ catch(err)
 }
 });
 
-window.opener.postMessage("READY", "http://localhost:4000");
+window.opener.postMessage("READY", `${backend_url}`);
 
 window.addEventListener("message", (event) => {
   console.log("Message received from:", event.origin);
 
-  if (event.origin === "http://localhost:4000") {
+  if (event.origin === `${backend_url}`) {
     localStorage.setItem("token", event.data.token);
     localStorage.setItem("appointmentId", event.data.appointmentId);
    

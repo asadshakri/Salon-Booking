@@ -1,3 +1,5 @@
+const backendUrl="http://13.235.74.25:7000";
+
 function logout(){
     localStorage.removeItem("token");
     window.location.href = "/admin/main.html";
@@ -99,7 +101,7 @@ function convertTo24Hr(time) {
   
       // 1️⃣ Create service
       const serviceRes = await axios.post(
-        "http://localhost:4000/admin/salon/service",
+        `${backendUrl}/admin/salon/service`,
         {
           serviceName: serviceName.value,
           serviceDesc: serviceDesc.value,
@@ -113,7 +115,7 @@ function convertTo24Hr(time) {
   
       // 2️⃣ Send ONLY DAYS
       await axios.post(
-        "http://localhost:4000/admin/salon/serviceAvailability",
+        `${backendUrl}/admin/salon/serviceAvailability`,
         {
           serviceId,
           days: [...selectedDays]
@@ -146,7 +148,7 @@ function convertTo24Hr(time) {
   const addstaff=document.getElementById("addStaffBtn")
 
   addstaff.addEventListener("click", async () => {
-    const services = await axios.get("http://localhost:4000/salon/services");
+    const services = await axios.get(`${backendUrl}/salon/services`);
   
     const popup = document.createElement("div");
     popup.className = "popup";
@@ -190,7 +192,7 @@ function convertTo24Hr(time) {
           time: convertTo24Hr(t.trim())
         }));
   
-      await axios.post("http://localhost:4000/admin/post", {
+      await axios.post(`${backendUrl}/admin/post`, {
         name: names.value,
         email: email.value,
         phone: phone.value,
