@@ -90,12 +90,11 @@ function generateToken(id) {
     specialization
   });
 
-  // assign services
   if (services.length) {
-    await staff.setServices(services); // service IDs
+    await staff.setServices(services);
   }
 
-  // availability
+
   if (availability.length) {
     const slots = availability.map(a => ({
       time: a.time,

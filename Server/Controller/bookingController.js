@@ -13,7 +13,6 @@ const StaffAvailability = require("../models/staffAvail");
         return res.status(400).json({ message: "serviceId and date are required" });
       }
   
-      // Extract DAY from DATE
       const selectedDate = new Date(date);
       const day = selectedDate.toLocaleDateString("en-US", {
         weekday: "long"
@@ -22,7 +21,6 @@ const StaffAvailability = require("../models/staffAvail");
       console.log("Selected Date:", date);
       console.log("Day:", day);
   
-      // Check if service works on that day
       const serviceDay = await ServiceAvailability.findOne({
         where: {
           ServiceId: serviceId,
@@ -31,10 +29,10 @@ const StaffAvailability = require("../models/staffAvail");
       });
   
       if (!serviceDay) {
-        return res.json([]); // service not available that day
+        return res.json([]);
       }
   
-      //  Staff who can do this service
+  
       const staffList = await Staff.findAll({
         include: [
           {
@@ -48,7 +46,7 @@ const StaffAvailability = require("../models/staffAvail");
         ]
       });
   console.log("Staff List:", staffList);
-      // Already booked appointments for that date
+   
       const bookings = await Appointment.findAll({
         where: { date: appointmentDate  }
       });
@@ -58,7 +56,7 @@ const StaffAvailability = require("../models/staffAvail");
         bookedMap[`${b.StaffId}-${b.time}`] = true;
       });
   
-      //  Build available slots
+
       const result = [];
       staffList.forEach(staff => {
         staff.StaffAvails.forEach(av => {

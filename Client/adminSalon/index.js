@@ -1,9 +1,16 @@
 const backendUrl="http://13.235.74.25";
 
 function logout(){
-    localStorage.removeItem("token");
+    localStorage.removeItem("adminToken");
     window.location.href = "/admin/main.html";
 }
+
+window.onload = function() {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+        window.location.href = "/admin/main.html";
+    }
+};
 
 function convertTo24Hr(time) {
     time = time.toLowerCase();
@@ -99,7 +106,6 @@ function convertTo24Hr(time) {
         return;
       }
   
-      // 1️⃣ Create service
       const serviceRes = await axios.post(
         `${backendUrl}/admin/salon/service`,
         {
@@ -113,7 +119,6 @@ function convertTo24Hr(time) {
   
       const serviceId = serviceRes.data.serviceId;
   
-      // 2️⃣ Send ONLY DAYS
       await axios.post(
         `${backendUrl}/admin/salon/serviceAvailability`,
         {
